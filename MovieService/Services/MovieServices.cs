@@ -30,11 +30,12 @@ public class MovieServices
         string movieId = await GetMovieIdByTitleAsync(title);
       
         MovieDto? details = await GetMovieDetailsByIdAsync(movieId);
-        SimilarRootDto? similarRoot = await GetMovieSimilarByIdAsync(movieId);
+        MovieSearchRootDto? similarRoot = await GetMovieSimilarByIdAsync(movieId);
 
         if(details != null && similarRoot != null)
         {
-            var movieResult = MovieDomain.create(details.title, details.original_title, details.vote_average, details.release_date, details.overview, similarRoot);
+            List<MovieSearchResultDto> similarResults = similarRoot.results ?? new List<MovieSearchResultDto>();
+            var movieResult = MovieDomain.create(details.title, details.original_title, details.vote_average, details.release_date, details.overview, similarResults);
             _cache.Set(cacheKey, movieResult, TimeSpan.FromMinutes(30));
             return movieResult;
         }
@@ -49,9 +50,15 @@ public class MovieServices
         {
             var response = await _httpClient.GetStringAsync($"https://api.themoviedb.org/3/search/movie?api_key={_apiKey}&query={title}");
             var json = JObject.Parse(response);
-            var movie = json["results"].First;
-            var movieId = movie["id"].ToString();
-            return movieId;
+            MovieSearchRootDto? movieList = json.ToObject<MovieSearchRootDto>();
+            if (movieList != null && movieList.results != null)
+            {
+                var movie = movieList.results.First();
+                var movieId = movie.id.ToString();
+                return movieId;
+            }
+            return string.Empty;
+            
         } 
         catch (Exception ex)
         {
@@ -73,13 +80,13 @@ public class MovieServices
         }
     }
 
-    private async Task<SimilarRootDto?> GetMovieSimilarByIdAsync(string movieId)
+    private async Task<MovieSearchRootDto?> GetMovieSimilarByIdAsync(string movieId)
     {
         try
         {
             var similarResponse = await _httpClient.GetStringAsync($"https://api.themoviedb.org/3/movie/{movieId}/similar?api_key={_apiKey}");
             var similarJson = JObject.Parse(similarResponse);
-            return similarJson.ToObject<SimilarRootDto>();
+            return similarJson.ToObject<MovieSearchRootDto>();
         }
         catch (Exception ex)
         {
