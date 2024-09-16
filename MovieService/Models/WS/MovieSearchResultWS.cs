@@ -1,6 +1,6 @@
 ﻿namespace MovieService.Models.Dto
 {
-    public class MovieSearchResultDto
+    public class MovieSearchResultWS
     {
         public bool adult { get; set; }
         public string backdrop_path { get; set; }

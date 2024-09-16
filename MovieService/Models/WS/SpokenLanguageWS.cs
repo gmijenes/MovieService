@@ -1,6 +1,6 @@
 ﻿namespace MovieService.Models.Dto
 {
-    public class SpokenLanguageDto
+    public class SpokenLanguageWS
     {
         public string english_name { get; set; }
         public string iso_639_1 { get; set; }

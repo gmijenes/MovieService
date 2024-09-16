@@ -1,6 +1,6 @@
 ﻿namespace MovieService.Models.Dto
 {
-    public class ProductionCompanyDto
+    public class ProductionCompanyWS
     {
         public long id { get; set; }
         public string logo_path { get; set; }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MovieService.Models.Response;
 using System.Threading.Tasks;
 
 [ApiController]
@@ -15,9 +16,8 @@ public class MovieController : ControllerBase
     [HttpGet("{title}")]
     public async Task<IActionResult> GetMovie(string title)
     {
-        var movie = await _movieService.GetMovieByTitleAsync(title);
-        if (movie != null)
-            return Ok(movie);
-        else return BadRequest();
+        MovieResponse movie = await _movieService.GetMovieByTitleAsync(title);
+        if (!movie.Success) return BadRequest();
+        return Ok(movie.MovieDomain);
     }
 }
