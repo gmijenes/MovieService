@@ -32,7 +32,7 @@ When running the application in development mode, you have access to Swagger UI 
 ### Running as container
 1. **Installing dependencies**: Make sure you have Docker installed. If not, you can install it from the official website [here](https://www.docker.com/). 
 
-2. **Build the docker image** from the dockerfile:
+2. **Build the docker image** from the _MovieService/dockerfile_:
    
 ``docker build -t movie-service:latest . ``
 
