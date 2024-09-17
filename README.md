@@ -6,7 +6,7 @@ Movie Service API is a RESTful application built in .NET 6 that consumes The Mov
 * Docker
 * Postman for testing the service 
 ### Extra dependencies 
-* Access to The Movie Database API (TMDB): https://developers.themoviedb.org/3/getting-started/introduction
+* Access to The Movie Database API (TMDB) [here](https://developers.themoviedb.org/3/getting-started/introduction).
 ### Development steps:
 1. **Clone the repository** from GitHub root:
 
